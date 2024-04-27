@@ -13,7 +13,7 @@ class ThemeConstants {
       backgroundColor: Colpal.white,
     ),
 
-    colorScheme: ColorScheme.fromSeed(seedColor: Colpal.primary),
+    
     useMaterial3: true,
   );
 }

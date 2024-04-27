@@ -1,6 +1,6 @@
 import 'package:bivouac/screens/sign/auth_selection_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bivouac/screens/theme_constants.dart';
+import 'package:bivouac/theme/theme_constants.dart';
 
 void main() {
   runApp(const MyApp());

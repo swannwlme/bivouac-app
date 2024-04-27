@@ -37,3 +37,14 @@ Widget bigButton(String text, Color color, Color textColor, void Function()? onP
     ],
   );
 }
+
+
+Widget defaultBackButton(BuildContext context) {
+  return IconButton(
+    icon: const Icon(Icons.arrow_back_rounded, weight: 300,),
+    iconSize: 30,
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+}
