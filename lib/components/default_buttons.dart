@@ -1,7 +1,7 @@
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
 
-Widget bigButton(String text, Color color, Color textColor, void Function()? onPressed, {bool isOutlined = false}) {
+Widget bigButton(String text, void Function()? onPressed, {bool isOutlined = false}) {
   return Row(
     children: [
       Expanded(
@@ -12,10 +12,10 @@ Widget bigButton(String text, Color color, Color textColor, void Function()? onP
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              side: BorderSide(color: color, width: 3),
+              side: const BorderSide(color: Colors.brown, width: 3),
             ),
           ) : ElevatedButton.styleFrom(
-            backgroundColor: color,
+            backgroundColor: Colors.brown,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -28,7 +28,7 @@ Widget bigButton(String text, Color color, Color textColor, void Function()? onP
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: textColor
+                color: isOutlined ? Colors.brown : Colors.white
               ),
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:bivouac/components/default_buttons.dart';
+import 'package:bivouac/database/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bivouac/components/app_icon.dart';
 import 'package:bivouac/components/spacers.dart';
@@ -45,7 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 verticalSpacer(10),
 
-                const Divider()
+                const Divider(),
+
+                bigButton("Sign out", () {
+                  Auth().signOut();
+                })
               ],
             ),
           ),

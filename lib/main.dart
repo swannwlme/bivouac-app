@@ -1,8 +1,14 @@
-import 'package:bivouac/screens/sign/auth_selection_screen.dart';
+import 'package:bivouac/firebase_options.dart';
+import 'package:bivouac/widget_tree.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bivouac/theme/theme_constants.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -15,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bivouac',
       theme: ThemeConstants.lightTheme,
-      home: const AuthSelectionScreen(),
+      home: const WidgetTree(),
     );
   }
 }
