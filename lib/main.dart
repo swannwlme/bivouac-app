@@ -1,4 +1,4 @@
-import 'package:bivouac/screens/sign/sign_in_screen.dart';
+import 'package:bivouac/screens/sign/auth_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bivouac/screens/theme_constants.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bivouac',
       theme: ThemeConstants.lightTheme,
-      home: const SignInScreen(),
+      home: const AuthSelectionScreen(),
     );
   }
 }
