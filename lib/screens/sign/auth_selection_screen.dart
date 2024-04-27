@@ -1,6 +1,7 @@
 import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/components/icon_button.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/screens/sign/register_screen.dart';
 import 'package:bivouac/screens/sign/sign_in_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _AuthSelectionScreenState extends State<AuthSelectionScreen> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.center,
                   //   children: [
@@ -74,8 +75,10 @@ class _AuthSelectionScreenState extends State<AuthSelectionScreen> {
                   bigButton("Sign In", Colpal.brown, Colors.white, (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInScreen(),));
                   }),
-                  verticalSpacer(10),
-                  bigButton("Register", Colpal.brown, Colpal.brown, () { }, isOutlined: true),
+                  verticalSpacer(15),
+                  bigButton("Register", Colpal.brown, Colpal.brown, () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen(),));
+                  }, isOutlined: true),
 
                   verticalSpacer(10),
 

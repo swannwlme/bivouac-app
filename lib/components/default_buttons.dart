@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
 
 Widget bigButton(String text, Color color, Color textColor, void Function()? onPressed, {bool isOutlined = false}) {
@@ -8,7 +8,7 @@ Widget bigButton(String text, Color color, Color textColor, void Function()? onP
         child: ElevatedButton(
           onPressed: onPressed,
           style: isOutlined ? ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colpal.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

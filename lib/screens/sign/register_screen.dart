@@ -7,14 +7,14 @@ import 'package:bivouac/theme/color_palet.dart';
 import 'package:bivouac/utils/validators.dart';
 import 'package:flutter/material.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
@@ -47,7 +47,6 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,24 +64,12 @@ class _SignInScreenState extends State<SignInScreen> {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Let's Sign you in",
+                  "Let's create your Account",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0
                   ),
-                ),
-              ),
-
-              verticalSpacer(20),
-
-              Text(
-                "Welcome back, you've been missed!",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.grey[600],
-                  letterSpacing: 0
                 ),
               ),
 
@@ -105,27 +92,20 @@ class _SignInScreenState extends State<SignInScreen> {
                 isPassword: true,
                 validator: passwordValidator,
                 icon: Icons.fingerprint,
+              ),verticalSpacer(30),
+              TextFieldColumn(
+                controller: passwordController,
+                title: "Confirm your password",
+                hintText: "YourPassword123",
+                keyboardType: TextInputType.visiblePassword,
+                isPassword: true,
+                validator: passwordValidator,
+                icon: Icons.fingerprint,
               ),
 
-              const Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: null,
-                    child :Text(
-                      "Forgot Password ?",
-                      style: TextStyle(
-                        color: Colpal.grey,
-                        fontSize: 16,
-                        letterSpacing: 0
-                        //fontWeight: FontWeight.w500
-                      ),
-                    ),
-                  ),
-                ),
+              verticalSpacer(40),
 
-              verticalSpacer(20),
-
-              bigButton("Sign In", Colpal.brown, Colors.white, () { }),
+              bigButton("Sign Up", Colpal.brown, Colpal.brown, () { }, isOutlined: true),
               
               verticalSpacer(5),
               loadingIndicator(isLoading),
