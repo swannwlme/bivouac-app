@@ -12,7 +12,20 @@
           "package_name": "fr.swannwlm.bivouac"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "297170964532-vtvrt5p8b2bil0hepqdks9q0cf66hi4o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.swannwlm.bivouac",
+            "certificate_hash": "07ac553a623915c32c5b78edbf7e420228269a57"
+          }
+        },
+        {
+          "client_id": "297170964532-9rsdp6qo84rmu56vhphnd1bj0hvmtpam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyChNLKhZ86GNk0oiSSlNicSHUOgiIpxF84"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297170964532-9rsdp6qo84rmu56vhphnd1bj0hvmtpam.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "297170964532-6i7043n93epctrfqv5lnf8g01jvpcei1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.swannwlm.bivouac"
+              }
+            }
+          ]
         }
       }
     }

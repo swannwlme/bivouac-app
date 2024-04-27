@@ -39,7 +39,7 @@ class Auth{
 
       Navigator.popUntil(context, (route) => route.isFirst);
     } catch (e) {
-      rethrow;
+      print(e.toString());
     }
   }
 

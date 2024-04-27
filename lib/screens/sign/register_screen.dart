@@ -139,13 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         
                 verticalSpacer(5),
           
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    svgIconButton("assets/icons/google_icon.svg", () => null),
-                    horizontalSpacer(20),
-                    svgIconButton("assets/icons/apple_icon.svg", () => null),
-                  ],
+                Center(
+                  child: svgIconButton("assets/icons/google_icon.svg", () {
+                      Auth().signInWithGoogle(context);
+                    })
                 )
           
               ],
