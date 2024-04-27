@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bivouac',
+      debugShowCheckedModeBanner: false,
       theme: ThemeConstants.lightTheme,
       home: const WidgetTree(),
     );

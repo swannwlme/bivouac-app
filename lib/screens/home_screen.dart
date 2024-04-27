@@ -1,5 +1,6 @@
 import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/database/auth.dart';
+import 'package:bivouac/screens/sign/create_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bivouac/components/app_icon.dart';
 import 'package:bivouac/components/spacers.dart';
@@ -12,8 +13,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  bool canShow=false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkUser();
+  }
+
+  void reloadPage(){
+    setState(() {
+      canShow=false;
+    });
+    checkUser();
+  }
+
+  void checkUser() async {
+    await Auth().isUserCreated().then((value) 
+    {
+      if (!value) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserScreen(reloadPage: reloadPage,),));
+      } else {
+        setState(() {
+          canShow = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!canShow) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +10,9 @@ class Auth{
 
   User? get currentUser => firebaseAuth.currentUser;
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
+
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Future<void> createUserWithEmailAndPassword(String email, String password) async {
     await firebaseAuth.createUserWithEmailAndPassword(
@@ -43,7 +48,23 @@ class Auth{
     }
   }
 
+  Future<void> createUserFile(String username, String description) async {
+    users.doc(currentUser?.uid).set({
+      'username': username,
+      'description': description,
+    });
+  }
+
   Future<void> signOut() async {
     await firebaseAuth.signOut();
+  }
+
+  Future<bool> isUserCreated() async {
+    final userDoc = await users.doc(currentUser?.uid).get();
+    return userDoc.exists;
+  }
+
+  Future<void> deleteUser() async {
+    await firebaseAuth.currentUser?.delete();
   }
 }

@@ -142,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   style: const TextStyle(
                     color: Colors.red,
                   ),
-                ) else const Text(" "),
+                ) else Container(),
                         
                 verticalSpacer(5),
           

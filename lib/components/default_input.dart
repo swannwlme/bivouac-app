@@ -10,6 +10,7 @@ class TextFieldColumn extends StatefulWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final IconData? icon;
+  final int? maxLines;
 
   const TextFieldColumn({
     required this.controller,
@@ -18,6 +19,7 @@ class TextFieldColumn extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.validator,
+    this.maxLines,
     this.icon,
     super.key
   });
@@ -56,6 +58,8 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
         
           cursorColor: Colpal.black,
           cursorHeight: 20,
+
+          maxLines: widget.maxLines ?? 1,
         
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
