@@ -3,11 +3,10 @@ import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/components/user_data_stream.dart';
+import 'package:bivouac/screens/edit_profile_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -45,6 +44,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
+
+                      const Spacer(),
+
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen(),));
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 25,
+                          color: Colors.black,
+                        ),
+                      )
                     ],
                   ),
         

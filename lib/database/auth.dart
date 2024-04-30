@@ -67,6 +67,11 @@ class Auth{
     });
   }
 
+  Future<Map<String, dynamic>> getUserData() async {
+    final userDoc = await users.doc(currentUser?.uid).get();
+    return userDoc.data() as Map<String, dynamic>;
+  }
+
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }

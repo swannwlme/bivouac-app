@@ -45,9 +45,13 @@ class _ProfileImageState extends State<ProfileImage> {
                 bottom: 0,
                 right: 0,
                 child: CircleAvatar(
-                  radius: widget.size*0.30,
-                  backgroundColor: Colpal.brown,
-                  child: Icon(Icons.edit, color: Colors.white, size: widget.size*0.3,)
+                  radius: widget.size*0.35,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: widget.size*0.30,
+                    backgroundColor: Colpal.brown,
+                    child: Icon(Icons.add, color: Colors.white, size: widget.size*0.4, weight: 200,)
+                  ),
                 ),
               )
             ],

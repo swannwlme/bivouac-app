@@ -11,6 +11,7 @@ class TextFieldColumn extends StatefulWidget {
   final String? Function(String?)? validator;
   final IconData? icon;
   final int? maxLines;
+  final bool enabled;
 
   const TextFieldColumn({
     required this.controller,
@@ -21,6 +22,7 @@ class TextFieldColumn extends StatefulWidget {
     this.validator,
     this.maxLines,
     this.icon,
+    this.enabled = true,
     super.key
   });
 
@@ -51,6 +53,8 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
 
         TextFormField(
           controller: widget.controller,
+
+          enabled: widget.enabled,
         
           obscureText: widget.isPassword ? isObscure : false,
         
