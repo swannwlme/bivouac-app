@@ -1,6 +1,5 @@
 import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/components/profile_image.dart';
-import 'package:bivouac/components/spacers.dart';
 import 'package:flutter/material.dart';
 
 class AddProfilePictureScreen extends StatefulWidget {

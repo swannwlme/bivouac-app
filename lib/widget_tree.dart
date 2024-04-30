@@ -1,5 +1,5 @@
 import 'package:bivouac/database/auth.dart';
-import 'package:bivouac/screens/home_screen.dart';
+import 'package:bivouac/screens/screen_projector.dart';
 import 'package:bivouac/screens/sign/auth_selection_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges , 
       builder: (context, snapshot) {
         if (snapshot.hasData){
-          return const HomeScreen();
+          return const ScreenProjector();
         } else {
           return const AuthSelectionScreen();
         }
