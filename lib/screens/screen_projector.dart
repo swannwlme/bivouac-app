@@ -1,5 +1,8 @@
 import 'package:bivouac/components/profile_image.dart';
+import 'package:bivouac/screens/main_screens/clan_screen.dart';
+import 'package:bivouac/screens/main_screens/explore_screen.dart';
 import 'package:bivouac/screens/main_screens/home_screen.dart';
+import 'package:bivouac/screens/main_screens/profile_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +18,9 @@ class _ScreenProjectorState extends State<ScreenProjector> {
 
   List screens = [
     const HomeScreen(),
+    const ExploreScreen(),
+    const ClanScreen(),
+    const ProfileScreen()
   ];
 
   @override

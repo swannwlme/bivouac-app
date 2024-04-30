@@ -25,12 +25,18 @@ String? Function(String?)? usernameValidator = (String? value) {
   if (value.length < 4) {
     return 'Username must be at least 4 characters long';
   }
+  if (value.length > 17) {
+    return 'Description must be maximum 17 characters long';
+  }
   return null;
 };
 
 String? Function(String?)? descriptionValidator = (String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter a description';
+  }
+  if (value.length > 800) {
+    return 'Description must be maximum 800 characters long';
   }
   return null;
 };
