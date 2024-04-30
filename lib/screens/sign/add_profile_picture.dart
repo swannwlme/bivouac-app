@@ -21,6 +21,7 @@ class _AddProfilePictureScreenState extends State<AddProfilePictureScreen> {
             padding: const EdgeInsets.all(20),
             child: Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     "Add a profile picture !",
@@ -30,8 +31,6 @@ class _AddProfilePictureScreenState extends State<AddProfilePictureScreen> {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-
-                  verticalSpacer(50),
         
                   Center(
                     child: ProfileImage(
@@ -39,8 +38,6 @@ class _AddProfilePictureScreenState extends State<AddProfilePictureScreen> {
                       canModify: true,
                     )
                   ),
-
-                  const Spacer(),
 
                   bigButton(
                     "Finish Inscription", 
