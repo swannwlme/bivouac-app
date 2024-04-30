@@ -48,6 +48,15 @@ class Auth{
     }
   }
 
+  Future<void> setUserData(Map<Object, Object?> data) async {
+    users.doc(currentUser?.uid).set(data);
+  }
+
+
+  Future<void> updateUserData(Map<Object, Object?> data) async {
+    users.doc(currentUser?.uid).update(data);
+  }
+
   Future<void> createUserFile(String username, String description) async {
     users.doc(currentUser?.uid).set({
       'username': username,
@@ -62,9 +71,5 @@ class Auth{
   Future<bool> isUserCreated() async {
     final userDoc = await users.doc(currentUser?.uid).get();
     return userDoc.exists;
-  }
-
-  Future<void> deleteUser() async {
-    await firebaseAuth.currentUser?.delete();
   }
 }

@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.centerLeft,
                   child: Row(
                     children: [
-                      appIcon(width: 40),
+                      appIcon(width: 38),
                       horizontalSpacer(10),
                       const Text(
                         "Bivouac",
@@ -76,16 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Spacer(),
 
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add, weight: 50, size: 35, color: Colors.black,),
-                      ),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserScreen(reloadPage: reloadPage,),));
+                        }, 
+                        icon: const Icon(Icons.add, size: 35, color: Colors.black,),
+                      )
                     ],
                   )
                 ),
 
-                verticalSpacer(10),
-
                 const Divider(),
+
+                verticalSpacer(5),
 
                 bigButton("Sign out", () {
                   Auth().signOut();
