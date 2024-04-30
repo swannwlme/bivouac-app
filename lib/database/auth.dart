@@ -61,6 +61,9 @@ class Auth{
     users.doc(currentUser?.uid).set({
       'username': username,
       'description': description,
+      'bivouacs': [],
+      'clan': null,
+      
     });
   }
 

@@ -48,3 +48,52 @@ class _DataStreamState extends State<DataStream> {
     );
   }
 }
+
+
+
+
+
+class CollectionStream extends StatefulWidget {
+  final String collection;
+  final Widget Function(Map<String, dynamic> data) builder;
+
+  const CollectionStream({super.key, required this.collection, required this.builder});
+
+  @override
+  State<CollectionStream> createState() => _CollectionStreamState();
+}
+
+class _CollectionStreamState extends State<CollectionStream> {
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? dataStream;
+
+  @override
+  void initState() {
+    dataStream = FirebaseFirestore.instance
+    .collection(widget.collection).snapshots();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (dataStream==null){
+      return  loadingIndicator(true);
+    }
+  
+    return StreamBuilder(
+      stream: dataStream, 
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        if (snapshot.hasError) {
+          return const Text("Something went wrong");
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loadingIndicator(true);
+        }
+
+        Map<String, dynamic> data = snapshot.data!.docs as Map<String, dynamic>;
+        return widget.builder(data);
+      },
+    );
+  }
+}

@@ -1,8 +1,10 @@
 import 'package:bivouac/components/db_data_stream.dart';
+import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/components/user_data_stream.dart';
 import 'package:bivouac/theme/color_palet.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.all(20),
             child: UserStreamBuilder(builder: (data) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     maxLines: showBio ? 20 : 3,
                     overflow: TextOverflow.fade,
                   ),
-                  Align(
+                  data['description'].length > 109 ? Align(
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
                       onTap: () {
@@ -108,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  ) : Container(),
 
                   verticalSpacer(20),
 
@@ -190,7 +192,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     );
-                  },)
+                  },),
+
+                  verticalSpacer(30),
+
+                  const Text(
+                    "Latest Bivouacs",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+
+                  // Latest Bivouacs
+                  data['bivouacs'].length<=0 ? const Text(
+                    "No bivouacs yet.",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ) : Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(
+                        color: Colors.grey, width: 2 
+                      )
+                    ),
+                    elevation: 0,
+                    color: Colors.white,
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Divider(
+                          height: 0,
+                        ),
+                      ),
+                      itemCount: data['bivouacs'].length<4 ? data['bivouacs'].length : 4,
+                      itemBuilder: (context, index) {
+                        return DataStream(
+                          collection: "bivouacs", 
+                          id: data['bivouacs'][index], 
+                          builder: (bData) {
+                            Timestamp startTime = bData['start_time'];
+
+                            return ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 140,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        verticalSpacer(10),
+                                        Text(
+                                          bData['name'],
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        verticalSpacer(5),
+                                        Text(
+                                          startTime.toDate().toString().substring(0, 10),
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[700]
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    child: MiniMap(
+                                      coordinates: bData['location'], 
+                                      height: 100, 
+                                      width: 100,
+                                      zoom: 9,
+                                    ),
+                                  )
+                                ],
+                              )
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
         
                 ],
               );

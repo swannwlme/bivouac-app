@@ -133,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   _submit();
                 }),
                 
-                verticalSpacer(5),
+                verticalSpacer(10),
                 loadingIndicator(isLoading),
           
                 if (errorMesssage.isNotEmpty) Text(
