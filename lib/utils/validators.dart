@@ -40,3 +40,10 @@ String? Function(String?)? descriptionValidator = (String? value) {
   }
   return null;
 };
+
+String? Function(String?)? addressValidator = (String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please set your location';
+  }
+  return null;
+};

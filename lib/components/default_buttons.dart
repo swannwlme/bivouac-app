@@ -15,7 +15,7 @@ Widget bigButton(String text, void Function()? onPressed, {bool isOutlined = fal
               side: const BorderSide(color: Colors.brown, width: 3),
             ),
           ) : ElevatedButton.styleFrom(
-            backgroundColor: Colors.brown,
+            backgroundColor: Colpal.brown,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

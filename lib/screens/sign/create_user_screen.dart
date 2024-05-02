@@ -3,6 +3,7 @@ import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/database/auth.dart';
+import 'package:bivouac/screens/set_location_screen.dart';
 import 'package:bivouac/screens/sign/add_profile_picture.dart';
 import 'package:bivouac/utils/validators.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,16 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
 
+  List<double> location = [];
+
 
   Future<void> saveData() async {
     if (formKey.currentState!.validate()) {
       await Auth().createUserFile(
         usernameController.text,
         descriptionController.text,
+        location,
+        locationController.text
       );
     }
   }
@@ -96,11 +101,17 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
         
                       verticalSpacer(30),
         
-                      TextFieldColumn(
-                        controller: locationController, 
-                        title: "Location", 
-                        hintText: "Click to enter your location...",
-                        keyboardType: TextInputType.multiline,
+                      GestureDetector(
+                        child: TextFieldColumn(
+                          controller: locationController, 
+                          title: "Location", 
+                          hintText: "Click to set your location...",
+                          enabled: false,
+                          validator: addressValidator,
+                        ),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SetLocationScreen(location: location, locationController: locationController,)));
+                        },
                       ),
         
                       verticalSpacer(50),

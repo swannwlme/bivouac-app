@@ -57,12 +57,14 @@ class Auth{
     users.doc(currentUser?.uid).update(data);
   }
 
-  Future<void> createUserFile(String username, String description) async {
+  Future<void> createUserFile(String username, String description, List<double> location, String address) async {
     users.doc(currentUser?.uid).set({
       'username': username,
       'description': description,
       'bivouacs': [],
       'clan': null,
+      'location': location,
+      'address': address,
       
     });
   }

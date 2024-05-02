@@ -1,6 +1,7 @@
 import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/components/user_data_stream.dart';
 import 'package:bivouac/database/auth.dart';
 import 'package:bivouac/screens/set_location_screen.dart';
 import 'package:bivouac/utils/validators.dart';
@@ -28,7 +29,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         {
           "username": usernameController.text,
           "description": descriptionController.text,
-          "location": locationController.text,
+          "address": locationController.text,
+          "location": location
         }
       );
     }
@@ -47,6 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       descriptionController.text = data["description"];
       location.add(data["location"][0]);
       location.add(data["location"][1]);
+      locationController.text = data["address"] ?? "";
     });
   }
 
@@ -106,15 +109,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               verticalSpacer(30),
         
               GestureDetector(
-                child: TextFieldColumn(
-                  controller: locationController, 
-                  title: "Location", 
-                  hintText: "Click to set your location...",
-                  keyboardType: TextInputType.multiline,
-                  enabled: false,
+                child: UserStreamBuilder(
+                  builder: (data) {
+                    return TextFieldColumn(
+                      controller: locationController, 
+                      title: "Location", 
+                      hintText: data['address'] ?? "Click to set your location...",
+                      enabled: false,
+                    );
+                  },
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SetLocationScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SetLocationScreen(location: location, locationController: locationController,)));
                 },
               ),
         
