@@ -75,13 +75,10 @@ class _BivouacScreenState extends State<BivouacScreen> {
                     verticalSpacer(20),
                 
                     Center(
-                      child: imageSlide(
-                        images.map((e) => Image.network(
-                          e,
-                          fit: BoxFit.cover,
-                        )).toList(), 
-                        350, 
-                        350
+                      child: ImageSlide(
+                        images: images,
+                        height: 350,
+                        width: 350,
                       ),
                     )
                   ],
