@@ -1,11 +1,10 @@
+import 'package:bivouac/components/bivouac_list_tile.dart';
 import 'package:bivouac/components/db_data_stream.dart';
-import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/components/user_data_stream.dart';
 import 'package:bivouac/screens/edit_profile_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -243,59 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       itemCount: data['bivouacs'].length<4 ? data['bivouacs'].length : 4,
                       itemBuilder: (context, index) {
-                        return DataStream(
-                          collection: "bivouacs", 
-                          id: data['bivouacs'][index], 
-                          builder: (bData) {
-                            Timestamp startTime = bData['start_time'];
-
-                            return ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 140,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        verticalSpacer(10),
-                                        Text(
-                                          bData['name'],
-                                          style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        verticalSpacer(5),
-                                        Text(
-                                          startTime.toDate().toString().substring(0, 10),
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey[700]
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 5),
-                                    child: MiniMap(
-                                      coordinates: bData['location'], 
-                                      height: 100, 
-                                      width: 100,
-                                      zoom: 9,
-                                    ),
-                                  )
-                                ],
-                              )
-                            );
-                          },
-                        );
+                        String id = data['bivouacs'][index];
+                        return bivouacListTile(id, context);
                       },
                     ),
                   )

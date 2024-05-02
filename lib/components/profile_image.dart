@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class ProfileImage extends StatefulWidget {
   final double size;
   final bool canModify;
-  const ProfileImage({super.key, this.size=25, this.canModify=false});
+  final String? uid;
+  const ProfileImage({super.key, this.size=25, this.canModify=false, this.uid});
 
   @override
   State<ProfileImage> createState() => _ProfileImageState();
@@ -25,7 +26,7 @@ class _ProfileImageState extends State<ProfileImage> {
             await getImage().then((value) async {
               if(value.path != ''){
                 await DataStorage().uploadFile("users/profile_image/${Auth().currentUser!.uid}", value).then((value) {
-                  Auth().users.doc(Auth().currentUser!.uid).update({
+                  Auth().users.doc(widget.uid ?? Auth().currentUser!.uid).update({
                     'profile_image': value
                   });
                 });
