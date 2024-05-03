@@ -73,7 +73,7 @@ Widget bivouacListTile(String id, BuildContext context){
                 coordinates: bData['location'], 
                 height: 100, 
                 width: 100,
-                zoom: 9,
+                zoom: 7,
               ),
             )
           ],

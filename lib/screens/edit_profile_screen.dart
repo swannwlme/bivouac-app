@@ -49,7 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       descriptionController.text = data["description"];
       location.add(data["location"][0]);
       location.add(data["location"][1]);
-      locationController.text = data["address"] ?? "";
+      locationController.text = data["address"];
     });
   }
 

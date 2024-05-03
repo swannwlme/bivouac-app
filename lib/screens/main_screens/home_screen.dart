@@ -1,5 +1,6 @@
 import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/database/auth.dart';
+import 'package:bivouac/screens/add_bivouac_screen.dart';
 import 'package:bivouac/screens/sign/create_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bivouac/components/app_icon.dart';
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       IconButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserScreen(reloadPage: reloadPage,),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddBivouacScreen(),));
                         }, 
                         icon: const Icon(Icons.add, size: 35, color: Colors.black,),
                       )

@@ -12,6 +12,7 @@ class TextFieldColumn extends StatefulWidget {
   final IconData? icon;
   final int? maxLines;
   final bool enabled;
+  final TextStyle? titleStyle;
 
   const TextFieldColumn({
     required this.controller,
@@ -23,6 +24,7 @@ class TextFieldColumn extends StatefulWidget {
     this.maxLines,
     this.icon,
     this.enabled = true,
+    this.titleStyle,
     super.key
   });
 
@@ -41,7 +43,7 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
           alignment: Alignment.centerLeft,
           child: Text(
             widget.title,
-            style: const TextStyle(
+            style: widget.titleStyle ??  const TextStyle(
               fontSize: 16,
               letterSpacing: 0,
               color: Colpal.grey
@@ -53,7 +55,7 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
 
         TextFormField(
           controller: widget.controller,
-
+        
           enabled: widget.enabled,
         
           obscureText: widget.isPassword ? isObscure : false,
@@ -62,29 +64,29 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
         
           cursorColor: Colpal.black,
           cursorHeight: 20,
-
+        
           maxLines: widget.maxLines ?? 1,
         
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
-
+        
             hintText: widget.hintText,
         
             prefixIcon: widget.icon != null ? Icon(widget.icon) : null,
-
+        
             filled: true,
             fillColor: Colpal.lightGrey,
-
+        
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
             ),
-
+        
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Colpal.green, width: 2),
             ),
-
+        
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Colors.red, width: 1.5),

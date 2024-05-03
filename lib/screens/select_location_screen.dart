@@ -6,16 +6,17 @@ import 'package:bivouac/utils/geo_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SetLocationScreen extends StatefulWidget {
-  TextEditingController locationController;
+class SelectLocationScreen extends StatefulWidget {
+  String address;
   List location;
-  SetLocationScreen({super.key, required this.locationController, required this.location});
+  void Function(String, List) updateScreen;
+  SelectLocationScreen({super.key, required this.address, required this.location, required this.updateScreen});
 
   @override
-  State<SetLocationScreen> createState() => _SetLocationScreenState();
+  State<SelectLocationScreen> createState() => _SelectLocationScreenState();
 }
 
-class _SetLocationScreenState extends State<SetLocationScreen> {
+class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
   final Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
   List<double> tmpLocation = [0, 0];
@@ -40,7 +41,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
       );
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,10 +142,10 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                           ),
                         ),
                         onPressed: () {
-                          mapController.future.then((controller) {
-                            getAddressFromLocation(tmpLocation[0], tmpLocation[1]).then((value) {
-                              widget.locationController.text = value;
-                              widget.location = [tmpLocation[0], tmpLocation[1]];
+                          mapController.future.then((controller) async{
+                            await getAddressFromLocation(tmpLocation[0], tmpLocation[1]).then((value) {
+                              
+                              widget.updateScreen(value, [tmpLocation[0], tmpLocation[1]]);
                             });
                           });
                           Navigator.pop(context);
