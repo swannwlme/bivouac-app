@@ -1,6 +1,6 @@
+import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,8 +8,10 @@ class ImageSlide extends StatefulWidget {
   final List<String> images;
   final double height;
   final double width;
+  final bool showLocation;
+  final List<dynamic>? coordinates;
 
-  const ImageSlide({super.key, required this.images, required this.height, required this.width});
+  const ImageSlide({super.key, required this.images, required this.height, required this.width, this.showLocation = false, this.coordinates});
 
   @override
   State<ImageSlide> createState() => _ImageSlideState();
@@ -45,15 +47,38 @@ class _ImageSlideState extends State<ImageSlide> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return Material(
+      elevation: 7,
+      
       borderRadius: BorderRadius.circular(15),
-      child: ImageSlideshow(
-        height: widget.height,
-        width: widget.width,
-        isLoop: false,
-        indicatorColor: Colpal.white,
-        indicatorPadding: 5,
-        children: imageList,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: ImageSlideshow(
+              height: widget.height,
+              width: widget.width,
+              isLoop: false,
+              indicatorColor: Colpal.white,
+              indicatorPadding: 5,
+              children: imageList,
+            ),
+          ),
+
+          if (widget.showLocation && widget.coordinates!=null)
+            Positioned(
+              bottom: 7,
+              right: 8,
+              child: MiniMap(
+                coordinates: widget.coordinates!, 
+                height: 100, 
+                width: 100,
+                borderColor: Colpal.white,
+                zoom: 10,
+                showMarker: false,
+              ),
+            ),
+        ],
       ),
     );
   }

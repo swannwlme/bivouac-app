@@ -3,6 +3,8 @@ import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/image_slide.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/components/vertical_divider.dart';
+import 'package:bivouac/utils/time_maths.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +33,7 @@ class _BivouacScreenState extends State<BivouacScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [                
                     DataStream(
                       collection: "users", 
@@ -79,8 +82,118 @@ class _BivouacScreenState extends State<BivouacScreen> {
                         images: images,
                         height: 350,
                         width: 350,
+                        showLocation: true,
+                        coordinates: data['location'],
                       ),
-                    )
+                    ),
+
+                    verticalSpacer(20),
+
+                    Text(
+                      data['name'],
+                      style: const TextStyle(
+                        fontSize: 20,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    verticalSpacer(3),
+                    Text(
+                      data['description'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[700]
+                      ),
+                    ),
+
+                    verticalSpacer(20),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Duration",
+                              style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 0,
+                                color: Colors.grey[700]
+                              ),
+                            ),
+                            Text(
+                              "${durationFromData(data['start_time'], data['end_time'])} days",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          ],
+                        ),
+
+                        verticalDivider(30),
+
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Members",
+                              style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 0,
+                                color: Colors.grey[700]
+                              ),
+                            ),
+                            Text(
+                              data['members'].length<=1 ? "${data['members'].length.toString()} person" : "${data['members'].length.toString()} people",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    verticalSpacer(30),
+
+                    data['members'].length > 0 ? Theme(
+                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        title: const Text(
+                          "Members",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        iconColor: Colors.grey[600],
+                        children: data['members'].map<Widget>((member) {
+                          return DataStream(
+                            collection: "users", 
+                            id: member, 
+                            builder: (mData) {
+                              return ListTile(
+                                leading: ProfileImage(
+                                  uid: member,
+                                  size: 20,
+                                ),
+                                title: Text(
+                                  mData['username'],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ) : Container(),
+
                   ],
                 ),
               ),

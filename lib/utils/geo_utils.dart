@@ -1,5 +1,7 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 Future<Position> determinePosition() async {
   bool serviceEnabled;
@@ -44,4 +46,21 @@ Future<String> getAddressFromLocation(double latitude, double longitude) async {
   );
 
   return addresses?.first.street ?? "";
+}
+
+LatLng getLatLngFromList(List<double> coordinates) {
+  return LatLng(coordinates[0], coordinates[1]);
+}
+
+void openGoogleMaps(String latitude, String longitude) async {
+  String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+
+  if (await canLaunchUrlString(googleMapsUrl)) {
+    await launchUrlString(
+      googleMapsUrl,
+      mode: LaunchMode.externalApplication
+    );
+  } else {
+    throw 'Could not launch $googleMapsUrl';
+  }
 }
