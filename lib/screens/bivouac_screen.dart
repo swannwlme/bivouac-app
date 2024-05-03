@@ -17,6 +17,7 @@ class BivouacScreen extends StatefulWidget {
 }
 
 class _BivouacScreenState extends State<BivouacScreen> {
+
   @override
   Widget build(BuildContext context) {
     return DataStream(
@@ -159,40 +160,44 @@ class _BivouacScreenState extends State<BivouacScreen> {
 
                     verticalSpacer(30),
 
-                    data['members'].length > 0 ? Theme(
-                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        title: const Text(
-                          "Members",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        iconColor: Colors.grey[600],
-                        children: data['members'].map<Widget>((member) {
-                          return DataStream(
-                            collection: "users", 
-                            id: member, 
-                            builder: (mData) {
-                              return ListTile(
-                                leading: ProfileImage(
-                                  uid: member,
+                    const Text(
+                      "Members",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    
+                    verticalSpacer(10),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data['members'].length,
+                      itemBuilder: (context, index) {
+                        return DataStream(
+                          collection: "users", 
+                          id: data['members'][index], 
+                          builder: (mData) {
+                            return Row(
+                              children: [
+                                ProfileImage(
+                                  uid: data['members'][index],
                                   size: 20,
                                 ),
-                                title: Text(
+                                horizontalSpacer(15),
+                                Text(
                                   mData['username'],
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ) : Container(),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
 
                   ],
                 ),

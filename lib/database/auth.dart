@@ -74,6 +74,11 @@ class Auth{
     return userDoc.data() as Map<String, dynamic>;
   }
 
+  Future<Map<String, dynamic>> getData(String collection, String id) async {
+    final doc = await FirebaseFirestore.instance.collection(collection).doc(id).get();
+    return doc.data() as Map<String, dynamic>;
+  }
+
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
