@@ -4,6 +4,7 @@ import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/screens/add_pictures_screen.dart';
 import 'package:bivouac/screens/select_location_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:bivouac/utils/time_maths.dart';
@@ -32,10 +33,16 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
 
   List<String> members = [];
 
-  void updateScreen(String newAddress, List newLocation) {
+  void updateScreenLocation(String newAddress, List newLocation) {
     setState(() {
       address = newAddress;
       location = newLocation;
+    });
+  }
+
+  void updateScreenImages(List<Uint8List> newImages) {
+    setState(() {
+      images = newImages;
     });
   }
 
@@ -181,7 +188,10 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                     )
                   ),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddPicturesScreen(updateScreen: updateScreenImages, currentImages: images))
+                    );
                   },
                   title: const Text(
                     "Pictures",
@@ -223,9 +233,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SelectLocationScreen(
-                        address: address, 
-                        location: location,
-                        updateScreen: updateScreen,
+                        updateScreen: updateScreenLocation,
                       ))
                     );
                   },
@@ -253,6 +261,50 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
 
                   subtitle: Text(
                     address.isEmpty ? "Add the location of the bivouac" : address,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey
+                    ),
+                  ),
+                ),
+
+                verticalSpacer(25),
+
+
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    side: BorderSide(
+                      color: Colpal.darkBlue,
+                      width: 1.5
+                    )
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SelectLocationScreen(
+                        updateScreen: updateScreenLocation,
+                      ))
+                    );
+                  },
+                  title: const Text(
+                    "Members",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colpal.darkBlue
+                    ),
+                  ),
+
+                  trailing: const Icon(
+                    Icons.group_add,
+                    size: 30,
+                    color: Colpal.darkBlue,
+                  ),
+
+                  subtitle: Text(
+                    members.isEmpty ? "Add members to the bivouac" : "Added ${members.length} members",
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
