@@ -4,6 +4,7 @@ import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/components/user_data_stream.dart';
 import 'package:bivouac/screens/add_member_screen.dart';
 import 'package:bivouac/screens/add_pictures_screen.dart';
 import 'package:bivouac/screens/select_location_screen.dart';
@@ -26,6 +27,8 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   TextEditingController descriptionController = TextEditingController();
   List<dynamic> location = [];
   String address="";
+
+  bool addClan = false;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -321,6 +324,34 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                   ),
                 ),
 
+                verticalSpacer(20),
+
+                UserStreamBuilder(
+                  builder: (data) {
+                    return CheckboxListTile(
+                      title: const Text(
+                        "Add to Clan",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      subtitle: const Text(
+                        "Add this bivouac to the clan",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      value: addClan,
+                      onChanged: (value) {
+                        setState(() {
+                          addClan = value!;
+                        });
+                      },
+                    );
+                  },
+                ),
 
 
                 verticalSpacer(30),
