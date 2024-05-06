@@ -65,7 +65,10 @@ class Auth{
       'clan': null,
       'location': location,
       'address': address,
-      
+    });
+
+    users.doc("user_list").update({
+      username: currentUser?.uid,
     });
   }
 

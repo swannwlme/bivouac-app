@@ -4,6 +4,7 @@ import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/spacers.dart';
+import 'package:bivouac/screens/add_member_screen.dart';
 import 'package:bivouac/screens/add_pictures_screen.dart';
 import 'package:bivouac/screens/select_location_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
@@ -43,6 +44,12 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   void updateScreenImages(List<Uint8List> newImages) {
     setState(() {
       images = newImages;
+    });
+  }
+
+  void updateScreenMembers(List<String> newMembers) {
+    setState(() {
+      members = newMembers;
     });
   }
 
@@ -283,8 +290,9 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SelectLocationScreen(
-                        updateScreen: updateScreenLocation,
+                      MaterialPageRoute(builder: (context) => AddMemberScreen(
+                        updateScreen: updateScreenMembers,
+                        currentMembers: members
                       ))
                     );
                   },
