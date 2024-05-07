@@ -90,4 +90,28 @@ class Auth{
     final userDoc = await users.doc(currentUser?.uid).get();
     return userDoc.exists;
   }
+
+  Future<bool> docExists(String collection, String id) async {
+    final doc = await FirebaseFirestore.instance.collection(collection).doc(id).get();
+    return doc.exists;
+  }
+
+  Future<void> saveDoc(Map<String, dynamic> data, String path) async {
+    try {
+      await FirebaseFirestore.instance.collection(path.split("/")[0]).doc(path.split("/")[1]).set(data);
+    } on FirebaseException catch (e){
+      print(e.message);
+    }
+  }
+
+  Future<void> addBivouacToUser(String bivouacId, {String? uid}) async {
+    getUserData().then((value) {
+      List<dynamic> bivouacs = value["bivouacs"];
+      bivouacs.add(bivouacId);
+      users.doc(uid ?? currentUser!.uid).update({
+        'bivouacs': bivouacs,
+      });
+    });
+    
+  }
 }

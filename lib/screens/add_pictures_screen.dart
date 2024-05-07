@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_buttons.dart';
@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:reorderables/reorderables.dart';
 
 class AddPicturesScreen extends StatefulWidget {
-  final void Function(List<Uint8List>) updateScreen;
-  final List<Uint8List>? currentImages;
+  final void Function(List<File>) updateScreen;
+  final List<File>? currentImages;
   const AddPicturesScreen({super.key, required this.updateScreen, this.currentImages});
 
   @override
@@ -17,11 +17,11 @@ class AddPicturesScreen extends StatefulWidget {
 
 class _AddPicturesScreenState extends State<AddPicturesScreen> {
 
-  List<Uint8List> images = [];
+  List<File> images = [];
 
   List<Widget> buildImage = [];
 
-  void addImage(Uint8List image) {
+  void addImage(File image) {
     setState(() {
       images.add(image);
       buildImage.add(
@@ -33,7 +33,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
               width: 120,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: MemoryImage(image),
+                  image: MemoryImage(image.readAsBytesSync()),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -48,7 +48,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
   void initState() {
     if (widget.currentImages != null) {
       images = widget.currentImages!;
-      for (Uint8List image in images) {
+      for (File image in images) {
         buildImage.add(
           Card(
             child: ClipRRect(
@@ -58,7 +58,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
                 width: 120,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: MemoryImage(image),
+                    image: MemoryImage(image.readAsBytesSync()),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -74,7 +74,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
         onTap: () {
           getImage().then((value) {
             if (value.path != '') {
-              addImage(value.readAsBytesSync());
+              addImage(value);
             }
           });
         },
@@ -111,7 +111,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
       body: ReorderableWrap(
         onReorder: (int oldIndex, int newIndex) {
           setState(() {
-            Uint8List image = images.removeAt(oldIndex);
+            File image = images.removeAt(oldIndex);
             images.insert(newIndex, image);
 
             Widget imageWidget = buildImage.removeAt(oldIndex);

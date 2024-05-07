@@ -1,12 +1,14 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_input.dart';
 import 'package:bivouac/components/mini_map.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/components/user_data_stream.dart';
+import 'package:bivouac/database/auth.dart';
 import 'package:bivouac/screens/add_member_screen.dart';
 import 'package:bivouac/screens/add_pictures_screen.dart';
+import 'package:bivouac/screens/saving_bivouac_screen.dart';
 import 'package:bivouac/screens/select_location_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:bivouac/utils/time_maths.dart';
@@ -33,7 +35,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
 
-  List<Uint8List> images = [];
+  List<File> images = [];
 
   List<String> members = [];
 
@@ -44,7 +46,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
     });
   }
 
-  void updateScreenImages(List<Uint8List> newImages) {
+  void updateScreenImages(List<File> newImages) {
     setState(() {
       images = newImages;
     });
@@ -65,7 +67,17 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              print("Add Bivouac");
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SavingBivouacScreen(data: {
+                "name": titleController.text,
+                "description": descriptionController.text,
+                "author": Auth().currentUser!.uid,
+                "start_time": startDate,
+                "end_time": endDate,
+                "location": location,
+                "members": members,
+                "images": images,
+                "clan": addClan,
+              }),));
             },
             child: const Text(
               "Save",
@@ -145,7 +157,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                   onDateSelected: (date) {
                     setState(() {
                       startDate = date;
-                      if (endDate.isBefore(startDate)) endDate = startDate;
+                      endDate = startDate;
                     });
                   },
                 ),
