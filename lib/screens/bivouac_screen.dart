@@ -4,6 +4,8 @@ import 'package:bivouac/components/image_slide.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
 import 'package:bivouac/components/vertical_divider.dart';
+import 'package:bivouac/database/auth.dart';
+import 'package:bivouac/screens/add_bivouac_screen.dart';
 import 'package:bivouac/utils/time_maths.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,27 @@ class BivouacScreen extends StatefulWidget {
 
 class _BivouacScreenState extends State<BivouacScreen> {
 
+  bool canEdit = false;
+
+  @override
+  void initState() {
+    setCanEdit();
+    super.initState();
+  }
+
+  void setCanEdit() async {
+    Auth().getData(
+      "bivouacs", 
+      widget.id
+    ).then((value) {
+      if (value['author'] == Auth().currentUser!.uid) {
+        setState(() {
+          canEdit = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DataStream(
@@ -28,7 +51,27 @@ class _BivouacScreenState extends State<BivouacScreen> {
         List<String> images = data['images'].cast<String>();
 
         return Scaffold(
-          appBar: defaultAppBar(context, showBackButton: true),
+          appBar: defaultAppBar(
+            context, 
+            showBackButton: true,
+            actions: [
+              if (canEdit) IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () async {
+                  Auth().getData(
+                    "bivouacs", 
+                    widget.id).then((value) => Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => AddBivouacScreen(
+                          data: value,
+                          id: widget.id,
+                        )
+                      )
+                    ));
+                },
+              )]
+          ),
           body: SingleChildScrollView(
             child: SafeArea(
               child: Padding(
@@ -173,26 +216,29 @@ class _BivouacScreenState extends State<BivouacScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: data['members'].length,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return DataStream(
-                          collection: "users", 
+                          collection: "users",
                           id: data['members'][index], 
                           builder: (mData) {
-                            return Row(
-                              children: [
-                                ProfileImage(
-                                  uid: data['members'][index],
-                                  size: 20,
-                                ),
-                                horizontalSpacer(15),
-                                Text(
-                                  mData['username'],
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                            return ListTile(
+                              title: Row(
+                                children: [
+                                  ProfileImage(
+                                    uid: data['members'][index],
+                                    size: 20,
                                   ),
-                                ),
-                              ],
+                                  horizontalSpacer(15),
+                                  Text(
+                                    mData['username'],
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         );

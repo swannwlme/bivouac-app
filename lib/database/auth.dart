@@ -114,4 +114,17 @@ class Auth{
     });
     
   }
+
+
+  Future<void> removeBivouacFromUser(String bivouacId, {String? uid}) async {
+    await FirebaseFirestore.instance.collection("bivouacs").doc(bivouacId).delete();
+
+    getUserData().then((value) {
+      List<dynamic> bivouacs = value["bivouacs"];
+      bivouacs.remove(bivouacId);
+      users.doc(uid ?? currentUser!.uid).update({
+        'bivouacs': bivouacs,
+      });
+    });
+  }
 }

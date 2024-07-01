@@ -242,7 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       itemCount: data['bivouacs'].length<4 ? data['bivouacs'].length : 4,
                       itemBuilder: (context, index) {
-                        String id = data['bivouacs'][index];
+                        int nbItmes = data['bivouacs'].length<4 ? data['bivouacs'].length : 4;
+                        String id = data['bivouacs'][nbItmes-index-1];
                         return bivouacListTile(id, context);
                       },
                     ),

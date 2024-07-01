@@ -71,7 +71,11 @@ class _SavingBivouacScreenState extends State<SavingBivouacScreen> {
 
     await Auth().saveDoc(finalData, "bivouacs/$docId").then((value) async{
       await Auth().addBivouacToUser(docId.toString()).then((value) {
-        print("Bivouac saved");
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Bivouac saved successfully"),
+          duration: Duration(seconds: 2),
+        ));
+
         Navigator.pop(context);
       });
     });

@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:bivouac/components/default_appbar.dart';
 import 'package:bivouac/components/default_input.dart';
@@ -17,7 +20,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBivouacScreen extends StatefulWidget {
-  const AddBivouacScreen({super.key});
+  final Map<String, dynamic>? data;
+  final String? id;
+  const AddBivouacScreen({super.key, this.data, this.id});
 
   @override
   State<AddBivouacScreen> createState() => _AddBivouacScreenState();
@@ -38,6 +43,35 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   List<File> images = [];
 
   List<String> members = [];
+
+  @override
+  void initState() {
+    if (widget.data != null) {
+      getData();
+    }
+    super.initState();
+  }
+
+  void getData() async {
+    if (widget.data != null) {
+      titleController.text = widget.data!['name'];
+      descriptionController.text = widget.data!['description'];
+      startDate = widget.data!['start_time'].toDate();
+      endDate = widget.data!['end_time'].toDate();
+      location = widget.data!['location'];
+      address = widget.data!['address'];
+      members = widget.data!['members'];
+      addClan = widget.data!['clan'];
+      if (widget.data!['images'] != null) {
+        List<String> imageUrls = widget.data!['images'].cast<String>();
+        await downloadImages(imageUrls).then((value) {
+          setState(() {
+            images.addAll(value);
+          });
+        });
+      }
+    }
+  }
 
   void updateScreenLocation(String newAddress, List newLocation) {
     setState(() {
@@ -365,8 +399,61 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                   },
                 ),
 
+                verticalSpacer(20),
 
-                verticalSpacer(30),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Confirm Deletion"),
+                            content: const Text("Are you sure you want to delete this bivouac?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "Cancel"
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Auth().removeBivouacFromUser(widget.id!);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                    color: Colors.red
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colpal.white,
+                      elevation: 0
+                    ),
+                    child: const Text(
+                      "Delete Bivouac",
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.red
+                      ),
+                    ),
+                  ),
+                ),
+
+
+
+                verticalSpacer(20),
 
               ],
             ),
@@ -374,5 +461,23 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
         )
       ),
     );
+  }
+  
+  Future<List<File>> downloadImages(List<String> imageUrls) async {
+    List<File> tmpImages = [];
+    for (String imageUrl in imageUrls) {
+      final response = await http.get(Uri.parse(imageUrl));
+
+      final documentDirectory = await getApplicationDocumentsDirectory();
+
+      final file = File(join(documentDirectory.path, '${imageUrls.indexOf(imageUrl)}.png'));
+
+      file.writeAsBytesSync(response.bodyBytes);
+
+      tmpImages.add(file);
+
+    }
+
+    return tmpImages;
   }
 }
