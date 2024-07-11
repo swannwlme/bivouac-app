@@ -1,4 +1,5 @@
+import 'dart:math';
+
 String randomDocId() {
-  print(DateTime.now().millisecondsSinceEpoch);
-  return "${DateTime.now().millisecondsSinceEpoch}";
+  return "${DateTime.now().millisecondsSinceEpoch}${(Random().nextInt(89) + 10).toString()}";
 }

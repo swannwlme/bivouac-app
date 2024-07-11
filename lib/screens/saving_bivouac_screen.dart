@@ -61,10 +61,12 @@ class _SavingBivouacScreenState extends State<SavingBivouacScreen> {
 
     print("Saving images");
 
+    int i=0;
     for (File image in widget.data["images"]) {
-      await DataStorage().uploadFile("bivouacs/${docId.toString()}", image).then((value) {
+      await DataStorage().uploadFile("bivouacs/${docId.toString()}/${i.toString()}", image).then((value) {
         finalData["images"].add(value);
       });
+      i++;
     }
 
     print("Saving bivouac doc");

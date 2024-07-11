@@ -1,10 +1,11 @@
+import 'package:bivouac/components/image_slide.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class FullImageScreen extends StatefulWidget {
-  List<Widget> imageList = [];
-  FullImageScreen({super.key, required this.imageList});
+  final List<Widget> imageList;
+  const FullImageScreen({super.key, required this.imageList});
 
   @override
   State<FullImageScreen> createState() => _FullImageScreenState();
@@ -26,6 +27,11 @@ class _FullImageScreenState extends State<FullImageScreen> {
         },
         child: Stack(
           children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: isFocused ? Colors.black : Colpal.white,
+            ),
             SafeArea(
               child: isFocused ? Container() : Padding(
                 padding: const EdgeInsets.all(10),
@@ -39,6 +45,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
             ),
             Center(
               child: ImageSlideshow(
+                height: 400,
                 isLoop: false,
                 indicatorColor: Colpal.white,
                 indicatorPadding: 5,
