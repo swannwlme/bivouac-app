@@ -31,6 +31,8 @@ dependencies:
   calendar_timeline_sbk: ^1.1.7
   reorderables: ^0.6.0
   path_provider: ^2.1.3
+  image_gallery_saver: ^2.0.3
+  dio: ^5.5.0+1
 
 dev_dependencies:
   flutter_test:

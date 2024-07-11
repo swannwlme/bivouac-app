@@ -1,11 +1,14 @@
-import 'package:bivouac/components/image_slide.dart';
+import 'dart:typed_data';
+
 import 'package:bivouac/theme/color_palet.dart';
+import 'package:bivouac/utils/image_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter/services.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class FullImageScreen extends StatefulWidget {
-  final List<Widget> imageList;
-  const FullImageScreen({super.key, required this.imageList});
+  final Widget image;
+  const FullImageScreen({super.key, required this.image});
 
   @override
   State<FullImageScreen> createState() => _FullImageScreenState();
@@ -14,6 +17,13 @@ class FullImageScreen extends StatefulWidget {
 class _FullImageScreenState extends State<FullImageScreen> {
 
   bool isFocused = false;
+  Image? structImage;
+
+  @override
+  void initState() {
+    super.initState();
+    structImage = widget.image as Image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +45,44 @@ class _FullImageScreenState extends State<FullImageScreen> {
             SafeArea(
               child: isFocused ? Container() : Padding(
                 padding: const EdgeInsets.all(10),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                child: Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+
+                      IconButton(
+                        icon: const Icon(Icons.download_rounded),
+                        iconSize: 30,
+                        onPressed: () async {
+                          // Download image
+                          if (structImage != null){
+                          NetworkImage toSaveImage = structImage!.image as NetworkImage;
+                            await saveNetworkImage(toSaveImage.url, "bivouac").then(
+                              (value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Image saved to gallery"),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             Center(
-              child: ImageSlideshow(
-                height: 400,
-                isLoop: false,
-                indicatorColor: Colpal.white,
-                indicatorPadding: 5,
-                children: widget.imageList,
+              child: SafeArea(
+                child: structImage ?? Container(),
               ),
             ),
           ]

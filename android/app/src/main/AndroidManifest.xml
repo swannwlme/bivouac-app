@@ -5,6 +5,7 @@
         android:label="bivouac"
         android:name="${applicationName}"
         android:roundIcon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

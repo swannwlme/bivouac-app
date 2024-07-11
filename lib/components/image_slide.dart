@@ -12,7 +12,7 @@ class ImageSlide extends StatefulWidget {
   final bool showLocation;
   final List<dynamic>? coordinates;
 
-  const ImageSlide({super.key, required this.images, required this.height, required this.width, this.showLocation = false, this.coordinates});
+  const ImageSlide({super.key, required this.images, required this.height, required this.width,this.showLocation = false, this.coordinates});
 
   @override
   State<ImageSlide> createState() => _ImageSlideState();
@@ -21,6 +21,7 @@ class ImageSlide extends StatefulWidget {
 class _ImageSlideState extends State<ImageSlide> {
 
   List<Widget> imageList = [];
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -56,7 +57,7 @@ class _ImageSlideState extends State<ImageSlide> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FullImageScreen(imageList: imageList,),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FullImageScreen(image: imageList[currentIndex],),));
             
             },
             child: ClipRRect(
@@ -68,6 +69,11 @@ class _ImageSlideState extends State<ImageSlide> {
                 indicatorColor: Colpal.white,
                 indicatorPadding: 5,
                 children: imageList,
+                onPageChanged: (value) {
+                  setState(() {
+                    currentIndex = value;
+                  });
+                },
               ),
             ),
           ),
