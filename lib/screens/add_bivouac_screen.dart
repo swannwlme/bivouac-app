@@ -101,6 +101,8 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
         actions: [
           TextButton(
             onPressed: () {
+              print(images);
+              members.insert(0, Auth().currentUser!.uid);
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SavingBivouacScreen(data: {
                 "name": titleController.text,
                 "description": descriptionController.text,
@@ -422,7 +424,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                               TextButton(
                                 onPressed: () {
                                   Auth().removeBivouacFromUser(widget.id!);
-                                  Navigator.pop(context);
+                                  Navigator.of(context).popUntil((route) => route.isFirst);
                                 },
                                 child: const Text(
                                   "Delete",

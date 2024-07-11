@@ -124,8 +124,8 @@ class _BivouacScreenState extends State<BivouacScreen> {
                     Center(
                       child: ImageSlide(
                         images: images,
-                        height: 350,
-                        width: 350,
+                        height: 370,
+                        width: 380,
                         showLocation: true,
                         coordinates: data['location'],
                       ),

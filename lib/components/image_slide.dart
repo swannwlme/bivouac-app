@@ -1,4 +1,5 @@
 import 'package:bivouac/components/mini_map.dart';
+import 'package:bivouac/screens/full_image_screen.dart';
 import 'package:bivouac/theme/color_palet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -53,15 +54,21 @@ class _ImageSlideState extends State<ImageSlide> {
       borderRadius: BorderRadius.circular(15),
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: ImageSlideshow(
-              height: widget.height,
-              width: widget.width,
-              isLoop: false,
-              indicatorColor: Colpal.white,
-              indicatorPadding: 5,
-              children: imageList,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FullImageScreen(imageList: imageList,),));
+            
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: ImageSlideshow(
+                height: widget.height,
+                width: widget.width,
+                isLoop: false,
+                indicatorColor: Colpal.white,
+                indicatorPadding: 5,
+                children: imageList,
+              ),
             ),
           ),
 
