@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
@@ -33,7 +34,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   List<dynamic> location = [];
-  String address="";
+  String? address;
 
   bool addClan = false;
 
@@ -45,23 +46,28 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
   List<String> members = [];
 
   @override
-  void initState() {
+  void initState()  {
     if (widget.data != null) {
       getData();
     }
     super.initState();
   }
 
-  void getData() async {
+  Future<void> getData() async {
     if (widget.data != null) {
       titleController.text = widget.data!['name'];
       descriptionController.text = widget.data!['description'];
       startDate = widget.data!['start_time'].toDate();
       endDate = widget.data!['end_time'].toDate();
-      location = widget.data!['location'];
+      for (dynamic number in widget.data!['location']) {
+        location.add(number);
+      }
       address = widget.data!['address'];
-      members = widget.data!['members'];
-      addClan = widget.data!['clan'];
+      for (String member in widget.data!['members']) {
+        print(member);
+        members.add(member);
+      }
+      
       if (widget.data!['images'] != null) {
         List<String> imageUrls = widget.data!['images'].cast<String>();
         await downloadImages(imageUrls).then((value) {
@@ -101,9 +107,11 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              print(images);
-              members.insert(0, Auth().currentUser!.uid);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SavingBivouacScreen(data: {
+              if (!members.contains(Auth().currentUser!.uid)){
+                members.insert(0, Auth().currentUser!.uid);
+              }
+              
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SavingBivouacScreen(id: widget.id, data: {
                 "name": titleController.text,
                 "description": descriptionController.text,
                 "author": Auth().currentUser!.uid,
@@ -318,7 +326,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                   ),
 
                   subtitle: Text(
-                    address.isEmpty ? "Add the location of the bivouac" : address,
+                    address ?? "Add the location of the bivouac",
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -343,7 +351,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => AddMemberScreen(
                         updateScreen: updateScreenMembers,
-                        currentMembers: members
+                        currentMembers: members,
                       ))
                     );
                   },
@@ -374,7 +382,8 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
 
                 verticalSpacer(20),
 
-                UserStreamBuilder(
+                
+                widget.data != null ? Container() : UserStreamBuilder(
                   builder: (data) {
                     return CheckboxListTile(
                       title: const Text(
@@ -403,7 +412,7 @@ class _AddBivouacScreenState extends State<AddBivouacScreen> {
 
                 verticalSpacer(20),
 
-                Center(
+                widget.data == null ? Container() : Center(
                   child: ElevatedButton(
                     onPressed: () {
                       showDialog(

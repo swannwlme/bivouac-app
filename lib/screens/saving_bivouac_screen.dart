@@ -6,8 +6,9 @@ import 'package:bivouac/utils/random_utils.dart';
 import 'package:flutter/material.dart';
 
 class SavingBivouacScreen extends StatefulWidget {
+  final String? id;
   final Map<String, dynamic> data;
-  const SavingBivouacScreen({super.key, required this.data});
+  const SavingBivouacScreen({super.key, required this.data, this.id});
 
   @override
   State<SavingBivouacScreen> createState() => _SavingBivouacScreenState();
@@ -28,16 +29,9 @@ class _SavingBivouacScreenState extends State<SavingBivouacScreen> {
     print("Saving bivouac ");
     
     // int docId = await FirebaseFirestore.instance.collection('bivouacs').snapshots().length;
-    String docId = randomDocId();
+    String docId = widget.id ?? randomDocId();
 
     print("Choosing bivouac number $docId");
-
-    Future.doWhile(() async {
-      docId = randomDocId();
-      return (await Auth().docExists("bivouacs", docId));
-    });
-
-    print("Chosen bivouac number $docId");
 
     finalData["name"] = widget.data["name"];
     finalData["location"] = widget.data["location"];
@@ -63,7 +57,7 @@ class _SavingBivouacScreenState extends State<SavingBivouacScreen> {
 
     int i=0;
     for (File image in widget.data["images"]) {
-      await DataStorage().uploadFile("bivouacs/${docId.toString()}/${i.toString()}", image).then((value) {
+      await DataStorage().uploadFile("bivouacs/${widget.id ?? docId.toString()}/${i.toString()}", image).then((value) {
         finalData["images"].add(value);
       });
       i++;
@@ -71,8 +65,8 @@ class _SavingBivouacScreenState extends State<SavingBivouacScreen> {
 
     print("Saving bivouac doc");
 
-    await Auth().saveDoc(finalData, "bivouacs/$docId").then((value) async{
-      await Auth().addBivouacToUser(docId.toString()).then((value) {
+    await Auth().saveDoc(finalData, "bivouacs/${widget.id ?? docId}").then((value) async{
+      await Auth().addBivouacToUser(widget.id ??  docId.toString()).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Bivouac saved successfully"),
           duration: Duration(seconds: 2),

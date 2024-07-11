@@ -1,5 +1,6 @@
 import 'package:bivouac/components/db_data_stream.dart';
 import 'package:bivouac/components/default_appbar.dart';
+import 'package:bivouac/components/default_buttons.dart';
 import 'package:bivouac/components/image_slide.dart';
 import 'package:bivouac/components/profile_image.dart';
 import 'package:bivouac/components/spacers.dart';
@@ -60,15 +61,18 @@ class _BivouacScreenState extends State<BivouacScreen> {
                 onPressed: () async {
                   Auth().getData(
                     "bivouacs", 
-                    widget.id).then((value) => Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => AddBivouacScreen(
-                          data: value,
-                          id: widget.id,
+                    widget.id).then((value) {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (context) => AddBivouacScreen(
+                            data: value,
+                            id: widget.id,
+                          )
                         )
-                      )
-                    ));
+                      );
+                    }
+                  );
                 },
               )]
           ),
@@ -243,7 +247,7 @@ class _BivouacScreenState extends State<BivouacScreen> {
                           },
                         );
                       },
-                    )
+                    ),
 
                   ],
                 ),

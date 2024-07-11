@@ -108,6 +108,7 @@ class Auth{
   Future<void> addBivouacToUser(String bivouacId, {String? uid}) async {
     getUserData().then((value) {
       List<dynamic> bivouacs = value["bivouacs"];
+      if (bivouacs.contains(bivouacId)) return;
       bivouacs.add(bivouacId);
       users.doc(uid ?? currentUser!.uid).update({
         'bivouacs': bivouacs,

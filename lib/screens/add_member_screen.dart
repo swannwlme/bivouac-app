@@ -100,6 +100,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   ),
                   itemCount: members.length,
                   itemBuilder: (context, index) {
+
+                    if ( members[index]==Auth().currentUser!.uid ) {
+                      return Container();
+                    }
         
                     return ListTile(
                       title: Row(

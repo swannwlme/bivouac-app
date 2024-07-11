@@ -25,16 +25,47 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
     setState(() {
       images.add(image);
       buildImage.add(
-        Card(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              height: 200,
-              width: 120,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: MemoryImage(image.readAsBytesSync()),
-                  fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Confirm Deletion'),
+                    content: const Text('Are you sure you want to delete this image?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            buildImage.removeAt(images.indexOf(image));
+                            images.remove(image);
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: const Text('Delete'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                    ],
+                  );
+                },
+              );
+          },
+          child: Card(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                height: 200,
+                width: 120,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: MemoryImage(image.readAsBytesSync()),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -50,16 +81,47 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
       images = widget.currentImages!;
       for (File image in images) {
         buildImage.add(
-          Card(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                height: 200,
-                width: 120,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: MemoryImage(image.readAsBytesSync()),
-                    fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Confirm Deletion'),
+                    content: const Text('Are you sure you want to delete this image?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            buildImage.removeAt(images.indexOf(image));
+                            images.remove(image);
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: const Text('Delete'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Card(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  height: 200,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: MemoryImage(image.readAsBytesSync()),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -69,24 +131,24 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
       }
     }
 
-    buildImage.add(
-      GestureDetector(
-        onTap: () {
-          getImage().then((value) {
-            if (value.path != '') {
-              addImage(value);
-            }
-          });
-        },
-        child: const Card(
-          child: SizedBox(
-            height: 200,
-            width: 120,
-            child: Icon(Icons.add, color: Colors.grey, size: 50),
-          ),
-        ),
-      )
-    );
+    // buildImage.add(
+    //   GestureDetector(
+    //     onTap: () {
+    //       getImage().then((value) {
+    //         if (value.path != '') {
+    //           addImage(value);
+    //         }
+    //       });
+    //     },
+    //     child: const Card(
+    //       child: SizedBox(
+    //         height: 200,
+    //         width: 120,
+    //         child: Icon(Icons.add, color: Colors.grey, size: 50),
+    //       ),
+    //     ),
+    //   )
+    // );
     super.initState();
   }
 
@@ -98,7 +160,7 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
         showBackButton: true,
       ),
       bottomSheet: Padding(
-        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 50),
+        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 30),
         child: bigButton(
           "Save Pictures", 
           () {
@@ -118,6 +180,24 @@ class _AddPicturesScreenState extends State<AddPicturesScreen> {
             buildImage.insert(newIndex, imageWidget);
           });
         },
+        header: [
+          GestureDetector(
+            onTap: () {
+              getImage().then((value) {
+                if (value.path != '') {
+                  addImage(value);
+                }
+              });
+            },
+            child: const Card(
+              child: SizedBox(
+                height: 200,
+                width: 120,
+                child: Icon(Icons.add, color: Colors.grey, size: 50),
+              ),
+            ),
+          )
+        ],
         children: buildImage,
       )
     );

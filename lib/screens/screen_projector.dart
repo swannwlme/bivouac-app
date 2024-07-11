@@ -28,8 +28,8 @@ class _ScreenProjectorState extends State<ScreenProjector> with TickerProviderSt
 
   PersistentBottomNavBarItem navItem(IconData icon, String title){
     return PersistentBottomNavBarItem(
-      icon: Icon(icon, size: 30,),
-      inactiveIcon: Icon(icon, size: 25,),
+      icon: Icon(icon, size: 33,),
+      inactiveIcon: Icon(icon, size: 30,),
       iconAnimationController: AnimationController(vsync: this, duration: const Duration(milliseconds: 400))..forward(),
       title: title,
       activeColorPrimary: Colpal.brown,

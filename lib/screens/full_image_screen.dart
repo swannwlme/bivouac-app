@@ -82,7 +82,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
             ),
             Center(
               child: SafeArea(
-                child: structImage ?? Container(),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: structImage ?? Container(),
+                ),
               ),
             ),
           ]
